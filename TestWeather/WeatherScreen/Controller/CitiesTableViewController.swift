@@ -25,15 +25,19 @@ class CitiesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.tableFooterView = footerView
-        tableView.refreshControl = refreshing
+        setupTableView()
         setupNavigationBar()
-        self.tableView.register(UINib(nibName: "CityTableViewCell", bundle: nil), forCellReuseIdentifier: CityTableViewCell.cellId)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getData()
+    }
+    
+    private func setupTableView() {
+        tableView.tableFooterView = footerView
+        tableView.refreshControl = refreshing
+        self.tableView.register(UINib(nibName: "CityTableViewCell", bundle: nil), forCellReuseIdentifier: CityTableViewCell.cellId)
     }
     
     private func getData() {
@@ -73,7 +77,7 @@ class CitiesTableViewController: UITableViewController {
                 guard error == nil else { return }
                 let currentWeather = RealmConverter.shared.convertModel(cityWeather!)
                 RealmManager.sharedInstance.updateData(wtih: currentWeather)
-    
+                
                 self.tableView.reloadData()
                 sender.endRefreshing()
             }

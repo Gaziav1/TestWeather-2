@@ -25,6 +25,10 @@ class AddCityViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        setupTableView()
+    }
+    
+    private func setupTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         tableView.tableFooterView = footer
     }

@@ -49,21 +49,25 @@ class UserLocationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let doneButton = UIBarButtonItem(image: UIImage(named: "Done"), style: .plain, target: self, action: #selector(doneButtonAction))
-        navigationItem.rightBarButtonItem = doneButton
+        setupNavigationBar()
         setupMapView()
         checkServices()
     }
     
+    private func setupNavigationBar() {
+        let doneButton = UIBarButtonItem(image: UIImage(named: "Done"), style: .plain, target: self, action: #selector(doneButtonAction))
+        navigationItem.rightBarButtonItem = doneButton
+    }
+    
     @objc private func doneButtonAction() {
         if let choosenCity = choosenCityInformation {
-        delegate?.addLocation(for: choosenCity)
+            delegate?.addLocation(for: choosenCity)
         }
         self.navigationController?.popViewController(animated: true)
         locationManager.stopUpdatingLocation()
     }
     
-
+    
     private func setupMapView() {
         view.addSubview(map)
         
@@ -111,7 +115,7 @@ class UserLocationViewController: UIViewController {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
-
+    
     private func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .denied:
@@ -178,7 +182,7 @@ extension UserLocationViewController: MKMapViewDelegate {
             }
             
             guard let placemark = placemarks?.first else { return }
-           
+            
             guard let city = placemark.locality, let country = placemark.country, let countryCode = placemark.isoCountryCode else { return }
             
             DispatchQueue.main.async {
